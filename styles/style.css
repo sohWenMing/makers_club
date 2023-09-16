@@ -1,8 +1,84 @@
-#navbar-brand-image {
-    display: inline-block;
-    width: 40px;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-#brand-wording {background-color: red;
+#navbar-header {
+  display: flex;
+  padding: 0 10px;
+  height: 50px;
+  justify-content: space-between;
+}
 
+#brand {
+  display: flex;
+  flex-direction: row;
+}
+
+#brand-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#brand-logo {
+  height: 100%;
+  width: auto;
+}
+
+#brand-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 111px;
+}
+
+#brand-text-top {
+  font-family: "Schoolbell", cursive;
+  letter-spacing: 2.5px;
+  margin-top: 10px;
+}
+
+#brand-text-bottom {
+  font-size: x-small;
+}
+
+#nav-links ul {
+  list-style: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#nav-links ul li a {
+  text-decoration: none;
+  padding: 0 10px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  text-align: center;
+  font-size: 1.5vw;
+}
+
+#hamburger-icon {
+  display: none;
+}
+
+#hamburger-icon div {
+  width: 35px;
+  height: 3px;
+  background-color: rgb(245, 203, 92);
+  margin: 6px 0;
+}
+
+#hamburger-icon .bar1 {
+  margin-top: 15px;
+}
+
+@media only screen and (max-width: 730px) {
+  header nav {
+    display: none;
+  }
+  #hamburger-icon {
+    display: block;
+  }
 }
