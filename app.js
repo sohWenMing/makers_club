@@ -11,6 +11,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use("/styles", express.static(path.join(__dirname, "styles")));
 app.use("/scripts", express.static(path.join(__dirname, "scripts")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.get("/", (req, res) => {
   //   res.render("index");

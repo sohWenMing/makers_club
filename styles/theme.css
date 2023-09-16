@@ -1,0 +1,22 @@
+:root {
+  --space-s: 8px;
+  --space-m: 16px;
+  --space-l: 32px;
+  --color-primary: rgb(245, 203, 92);
+  --font-gray: rgb(82, 91, 118);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.btn {
+  width: 140px;
+  height: 30px;
+  border-radius: 10px;
+  /* border: 2px solid var(--font-gray); */
+  color: var(--font-gray);
+  background-color: var(--color-primary);
+}

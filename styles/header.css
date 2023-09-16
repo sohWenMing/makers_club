@@ -1,21 +1,20 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
+/* main header styling */
 #navbar-header {
+  position: sticky;
+  top: 0;
   display: flex;
-  padding: 0 10px;
+  padding: 0 var(--space-s);
   height: 50px;
   justify-content: space-between;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: var(--font-gray);
 }
 
 #brand {
   display: flex;
   flex-direction: row;
 }
-
 #brand-logo-container {
   display: flex;
   justify-content: center;
@@ -28,6 +27,7 @@
 }
 
 #brand-text-wrapper {
+  margin-left: var(--space-s);
   display: flex;
   flex-direction: column;
   min-width: 111px;
@@ -36,34 +36,12 @@
 #brand-text-top {
   font-family: "Schoolbell", cursive;
   letter-spacing: 2.5px;
-  margin-top: 10px;
+  margin-top: 12px;
+  margin-bottom: 4px;
 }
 
 #brand-text-bottom {
   font-size: x-small;
-}
-
-.mobile-navbar {
-  display: none;
-  position: relative;
-  flex-direction: column;
-  height: calc(100vw - 50px);
-  justify-content: space-around;
-  align-items: center;
-  z-index: 100;
-}
-
-.mobile-navbar.open {
-  display: flex;
-}
-
-ul.mobile-navbar {
-  list-style: none;
-}
-
-.mobile-navbar li a {
-  flex-grow: 1;
-  text-decoration: none;
 }
 
 #nav-links ul {
@@ -79,7 +57,37 @@ ul.mobile-navbar {
   padding: 0 10px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   text-align: center;
-  font-size: 1.5vw;
+  font-size: 1.3vw;
+  color: var(--font-gray);
+  transition: font-size 0.1s ease-in;
+}
+
+/* mobile navbar collapsed styling */
+
+.mobile-navbar {
+  display: none;
+  position: sticky;
+  top: 50px;
+  flex-direction: column;
+  height: calc(100vh - 50px);
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.mobile-navbar.open {
+  display: flex;
+}
+
+ul.mobile-navbar {
+  list-style: none;
+}
+
+.mobile-navbar li a {
+  flex-grow: 1;
+  text-decoration: none;
+  color: var(--font-gray);
 }
 
 #hamburger-icon {
@@ -98,7 +106,7 @@ ul.mobile-navbar {
   margin-top: 15px;
 } */
 
-@media only screen and (max-width: 730px) {
+@media only screen and (max-width: 890px) {
   header nav {
     display: none;
   }
@@ -108,8 +116,11 @@ ul.mobile-navbar {
 }
 
 .content {
-  position: fixed;
-  top: 50px;
+  position: relative;
+}
+
+.content.open {
+  display: none;
 }
 
 .bar1.open {
@@ -130,4 +141,8 @@ ul.mobile-navbar {
 
 .mobile-navbar {
   transition: display 1s ease-in-out;
+}
+
+#nav-links ul li a:hover {
+  font-size: 1.7vw;
 }

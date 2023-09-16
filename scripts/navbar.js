@@ -3,7 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const hamburgerButton = document.getElementById("hamburger-icon");
   const hamburgerLines = hamburgerButton.querySelectorAll("div");
   const mobileNav = document.querySelector(".mobile-navbar");
-  const openToggles = [...hamburgerLines, mobileNav];
+  const content = document.getElementById("main-content");
+  const openToggles = [...hamburgerLines, mobileNav, content];
+
   console.log(openToggles);
 
   hamburgerButton.addEventListener("click", () => {
