@@ -44,11 +44,13 @@
 }
 
 .mobile-navbar {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: calc(100vw - 50px);
   justify-content: space-around;
   align-items: center;
+  z-index: 100;
 }
 
 .mobile-navbar.open {
@@ -103,4 +105,9 @@ ul.mobile-navbar {
   #hamburger-icon {
     display: block;
   }
+}
+
+.content {
+  position: fixed;
+  top: 50px;
 }
