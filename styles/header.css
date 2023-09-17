@@ -9,7 +9,7 @@
   z-index: 100;
   background-color: rgba(255, 255, 255, 0.8);
   color: var(--font-gray);
-  font-family: "Schoolbell", cursive;
+  font-family: "Gaegu", cursive;
 }
 
 #brand {
@@ -36,13 +36,15 @@
 
 #brand-text-top {
   /* font-family: var(--header-font); */
-  letter-spacing: 2.5px;
+  letter-spacing: 2px;
   margin-top: 12px;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
+  font-weight: 700;
 }
 
 #brand-text-bottom {
   font-size: x-small;
+  font-family: var(--main-font);
 }
 
 #nav-links ul {
@@ -83,7 +85,7 @@
   align-items: center;
   z-index: 100;
   background-color: rgba(255, 255, 255, 0.8);
-  font-family: "Schoolbell", cursive;
+  font-family: var(--header-font);
 }
 
 .mobile-navbar.open {

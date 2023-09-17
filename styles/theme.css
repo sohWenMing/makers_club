@@ -8,8 +8,8 @@
   --font-gray: rgb(82, 91, 118);
 
   /* fonts */
-  --header-font: "Schoolbell", cursive;
-  --main-font: "Nunito Sans", sans-serif;
+  --header-font: "Gaegu", cursive;
+  --main-font: "Glacial Indifference", sans-serif;
   --fontweight-light: 100;
 }
 
@@ -24,7 +24,7 @@
   height: 30px;
   border-radius: 10px;
   /* border: 2px solid var(--font-gray); */
-  font-family: "Schoolbell", cursive;
+  font-family: var(--header-font);
   letter-spacing: 1.5px;
   box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
 }
