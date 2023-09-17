@@ -1,12 +1,16 @@
 :root {
+  /* spacing */
   --space-s: 8px;
   --space-m: 16px;
   --space-l: 32px;
+  /* colors */
   --color-primary: rgb(245, 203, 92);
   --font-gray: rgb(82, 91, 118);
-  --header-font:  "Schoolbell", cursive;
-  --main-font: "Nunito Sans", sans-serif;
 
+  /* fonts */
+  --header-font: "Schoolbell", cursive;
+  --main-font: "Nunito Sans", sans-serif;
+  --fontweight-light: 100;
 }
 
 * {
@@ -27,12 +31,9 @@
 
 .btn:hover {
   transform: translate(2px, -2px);
-  
 }
-
 
 .btn-primary {
   color: var(--font-gray);
   background-color: var(--color-primary);
 }
- 
