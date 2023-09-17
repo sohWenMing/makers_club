@@ -14,4 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
       element.classList.toggle("open");
     });
   });
+
+  window.addEventListener("resize", () => {
+    if (this.window.innerWidth >= 891) {
+      const openElements = document.querySelectorAll(".open");
+      openElements.forEach((element) => {
+        element.classList.remove("open");
+      });
+    }
+  });
 });
