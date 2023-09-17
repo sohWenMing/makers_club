@@ -9,6 +9,7 @@
   z-index: 100;
   background-color: rgba(255, 255, 255, 0.8);
   color: var(--font-gray);
+  font-family: "Schoolbell", cursive;
 }
 
 #brand {
@@ -34,7 +35,7 @@
 }
 
 #brand-text-top {
-  font-family: "Schoolbell", cursive;
+  /* font-family: var(--header-font); */
   letter-spacing: 2.5px;
   margin-top: 12px;
   margin-bottom: 4px;
@@ -53,13 +54,21 @@
 }
 
 #nav-links ul li a {
+  display: inline-block;
+  width: 100%;
   text-decoration: none;
   padding: 0 10px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  /* font-family: var(--header-font); */
   text-align: center;
   font-size: 1.3vw;
   color: var(--font-gray);
-  transition: font-size 0.1s ease-in;
+  transition: transform 0.2s ease-in-out;
+}
+
+#nav-links ul li a.active {
+  font-size: 1.6vw;
+  color: var(--color-primary);
+  /* font-family: var(--header-font); */
 }
 
 /* mobile navbar collapsed styling */
@@ -74,6 +83,7 @@
   align-items: center;
   z-index: 100;
   background-color: rgba(255, 255, 255, 0.8);
+  font-family: "Schoolbell", cursive;
 }
 
 .mobile-navbar.open {
@@ -115,6 +125,12 @@ ul.mobile-navbar {
   }
 }
 
+@media only screen and (max-width: 900px) {
+  #nav-links ul li a {
+    font-size: 1.1vw;
+  }
+}
+
 .content {
   position: relative;
 }
@@ -144,5 +160,5 @@ ul.mobile-navbar {
 }
 
 #nav-links ul li a:hover {
-  font-size: 1.7vw;
+  transform: scale(1.1);
 }

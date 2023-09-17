@@ -14,8 +14,8 @@ app.use("/scripts", express.static(path.join(__dirname, "scripts")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.get("/", (req, res) => {
-  //   res.render("index");
-  res.render("index");
+  //   res.render("home");
+  res.render("home", { currentPage: "home" });
 });
 
 app.get("/chickens", (req, res) => {
