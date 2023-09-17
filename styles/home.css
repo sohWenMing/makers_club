@@ -1,0 +1,109 @@
+#content {
+    background-color: white;
+}
+
+.mobile-flex-container {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    align-content: center;
+}
+
+@media only screen and (max-width: 500px) {
+    .mobile-flex-container {
+        display: flex;
+    }
+  }
+
+.mobile-flex-container .image-container {
+    width: 100vw;
+    position: relative;
+}
+.mobile-flex-container .image-container img {
+    width: 100%;
+    opacity: 0.6;
+    
+}
+
+.image-container .centred-text {
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--font-gray);
+    font-family: 'Schoolbell', cursive;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 8vw;
+}
+
+.mobile-flex-container h1 {
+    position: relative;
+    top: 22.5vh;
+    z-index: 10;
+    color: var(--font-gray);
+    font-family: 'Schoolbell', cursive;
+    margin: 0 auto;
+}
+
+/* ######################################### */
+.home-screen-hero-container {
+    display: flex;
+    height: 40vh;
+    width: 100vw;
+    background-color: rgba(186,116,0,0.6);
+    
+}
+
+.home-screen-hero-container-text-container {
+    display: flex;
+    flex-direction: column;
+    margin: var(--space-m);
+    border: 2px solid var(--color-primary);
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+    padding: var(--space-s);
+    width: 100%;
+    font-family: var(--main-font);
+    background-color:rgba(255,255,255,0.8);
+}
+
+.home-screen-hero-text-title {
+    font-size: 3vw;
+    font-weight: 200;
+}
+
+.home-hero-text-body-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: var(--space-s);
+    font-size: 0.8rem;
+}
+
+.home-screen-hero-text-body {
+    margin: var(--space-s);
+}
+
+
+@media only screen and (max-width: 500px) {
+    .home-screen-hero-container {
+        display: none;
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
+    .home-hero-text-body-container {
+        font-size: 0.5rem;
+    }
+}
+@media only screen and (max-width: 750px) {
+    .home-hero-text-body-container {
+        font-size: 0.65rem;
+    }
+}
+  
+  
+
