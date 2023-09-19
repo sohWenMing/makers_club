@@ -11,6 +11,9 @@
   --header-font: "Gaegu", cursive;
   --main-font: "Glacial Indifference", sans-serif;
   --fontweight-light: 100;
+
+  /* font-sizes */
+  font-size: 16px;
 }
 
 * {
@@ -20,6 +23,7 @@
 }
 
 .btn {
+  font-size: 20px;
   width: 140px;
   height: 30px;
   border-radius: 10px;
@@ -27,10 +31,12 @@
   font-family: var(--header-font);
   letter-spacing: 1.5px;
   box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-in-out;
 }
 
 .btn:hover {
   transform: translate(2px, -2px);
+  cursor:pointer;
 }
 
 .btn-primary {

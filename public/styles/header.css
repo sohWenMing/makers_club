@@ -15,6 +15,7 @@
 #brand {
   display: flex;
   flex-direction: row;
+  min-width: 160px;
 }
 #brand-logo-container {
   display: flex;
@@ -47,6 +48,10 @@
   font-family: var(--main-font);
 }
 
+#nav-links {
+  width: 100%;
+}
+
 #nav-links ul {
   list-style: none;
   height: 100%;
@@ -59,16 +64,16 @@
   display: inline-block;
   width: 100%;
   text-decoration: none;
-  padding: 0 10px;
+  padding: 0 var(--space-s);
   /* font-family: var(--header-font); */
   text-align: center;
-  font-size: 1.3vw;
+  font-size: calc(16px + 0.390625vw);
   color: var(--font-gray);
   transition: transform 0.2s ease-in-out;
 }
 
+
 #nav-links ul li a.active {
-  font-size: 1.6vw;
   color: var(--color-primary);
   /* font-family: var(--header-font); */
 }
@@ -97,10 +102,23 @@ ul.mobile-navbar {
 }
 
 .mobile-navbar li a {
+  font-size: 5vw;
   flex-grow: 1;
   text-decoration: none;
   color: var(--font-gray);
+  transition: font-size 0.2s ease-in-out;
 }
+
+.mobile-navbar li a.active {
+  color: var(--color-primary);
+}
+
+
+.mobile-navbar li a:hover {
+  font-size: 5.5vw;
+}
+
+
 
 #hamburger-icon {
   display: none;
@@ -110,7 +128,7 @@ ul.mobile-navbar {
 #hamburger-icon div {
   width: 35px;
   height: 3px;
-  background-color: rgb(245, 203, 92);
+  background-color: var(--color-primary);
   margin: 6px 0;
 }
 
@@ -124,12 +142,6 @@ ul.mobile-navbar {
   }
   #hamburger-icon {
     display: block;
-  }
-}
-
-@media only screen and (max-width: 900px) {
-  #nav-links ul li a {
-    font-size: 1.1vw;
   }
 }
 
@@ -161,6 +173,9 @@ ul.mobile-navbar {
   transition: display 1s ease-in-out;
 }
 
-#nav-links ul li a:hover {
+ul li a:hover {
   transform: scale(1.1);
 }
+
+
+
