@@ -9,15 +9,15 @@ app.listen(port, () => {
 });
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use("/styles", express.static(path.join(__dirname, "styles")));
-app.use("/scripts", express.static(path.join(__dirname, "scripts")));
-app.use("/images", express.static(path.join(__dirname, "images")));
 
-app.get("/", (req, res) => {
-  //   res.render("home");
-  res.render("home", { currentPage: "home" });
-});
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/chickens", (req, res) => {
-  res.send("ok man i hear chickens");
-});
+require("./routes")(app)
+// app.get("/", (req, res) => {
+//   //   res.render("home");
+//   res.render("home", { currentPage: "home" });
+// });
+
+// app.get("/chickens", (req, res) => {
+//   res.send("ok man i hear chickens");
+// });
