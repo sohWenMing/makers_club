@@ -11,10 +11,10 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "public")));
-require("./routes")(app)
-
-
-
+require("./routes")(app);
+app.use("/", (res, req) => {
+  res.send("getting something from /");
+});
 
 // app.get("/test", (req, res) => {
 //   res.send("getting something from test");
