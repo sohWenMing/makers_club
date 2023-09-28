@@ -1,6 +1,7 @@
 const homeRoutes = require("./homeRoutes");
-const adminRoutes = require("./adminRoutes");
+const loginRoutes = require("./loginRoutes");
 
 module.exports = function (app) {
-  app.use("/", homeRoutes, adminRoutes);
+  app.use("/", homeRoutes);
+  app.use("/login", loginRoutes);
 };

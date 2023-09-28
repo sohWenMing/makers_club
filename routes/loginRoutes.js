@@ -1,15 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const sql = require("sqlite3");
-const login = require("../db_operations/login");
 const db = require("../db_operations/db_connection");
 const bcrypt = require("bcrypt");
 
-router.get("/login", (req, res) => {
+router.get("/", (req, res) => {
   res.render("./admin/login");
 });
 
-router.post("/login/submit", (req, res) => {
+router.post("/submit", (req, res) => {
   console.log(req.body.username);
   const selectUser = `
     SELECT * from user
