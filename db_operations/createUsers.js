@@ -1,11 +1,12 @@
 const bcrypt = require("bcrypt");
-const db = require("../db_operations/db_connection");
+const db = require("./db_create_connection.js");
 
 const createTable = `
   CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE,
   phone_number TEXT UNIQUE,
+  email TEXT,
   password TEXT
   )`;
 
@@ -18,21 +19,21 @@ db.run(createTable, [], (err) => {
 });
 
 const insertTable = `
-INSERT INTO user (username, phone_number, password) VALUES (?, ?, ?)
+INSERT INTO user (username, phone_number, email, password) VALUES (?, ?, ?, ?)
 `;
 
 const usersData = [
-  { username: "Aisyah", phone_number: 88233354, password: "BobTheBlob1" },
-  { username: "Amelia", phone_number: 91992832, password: "BobTheBlob2" },
-  { username: "Nindgabeet", phone_number: 93847096, password: "BobTheBlob3" },
+  { username: "Aisyah", phone_number: 88233354, email: "hello@themakersclub.com.sg", password: "BobTheBlob1" },
+  { username: "Amelia", phone_number: 91992832, email: "hello@themakersclub.com.sg", password: "BobTheBlob2" },
+  { username: "Nindgabeet", phone_number: 93847096, email: "wenming.soh@gmail.com", password: "BobTheBlob3" },
 ];
 
 async function insertAndHashUsers(usersData) {
   for (const user of usersData) {
-    const { username, phone_number, password } = user;
+    const { username, phone_number, email, password } = user;
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
-      db.run(insertTable, [username, phone_number, hashedPassword], function (err) {
+      db.run(insertTable, [username, phone_number, email, hashedPassword], function (err) {
         if (err) {
           console.log("Error inserting user:", err);
         } else {
