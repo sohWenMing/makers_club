@@ -24,9 +24,8 @@ router.post("/submit", (req, res) => {
     }
     bcrypt.compare(req.body.password, row.password, function (err, result) {
       if (result) {
-        console.log(row);
-        res.cookie('name', row.password);
-        console.log(result);
+        const userId = row.username;
+        req.session.userId = userId;
         res.redirect("/");
       } else {
         res.send("Username and password do not match");
