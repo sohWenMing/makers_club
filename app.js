@@ -2,7 +2,9 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 const { exec } = require("child_process");
+//child process is used to execute executables in the background - in this case is executing the "redis-server executable to startup redis-server on localhost for development purposes"
 const redisServer = exec("redis-server");
+
 require("dotenv").config();
 
 const RedisStore = require("connect-redis").default;
@@ -10,15 +12,19 @@ const redis = require("redis");
 
 const redisClient = redis.createClient({
   host: "localhost",
-  port: 6379, // Default Redis port
+  port: 6379,
 });
+//creates a redisClient to connect the the redis-server instance that was started up before. localhost:6379 is the default server configuation
 
 redisClient.connect().catch(console.error);
+//
 
 let redisStore = new RedisStore({
   client: redisClient,
   prefix: "makers_club",
 });
+//this of a each store like an instance of a db
+
 const maxAge = 30 * 60 * 1000;
 
 app.use(
