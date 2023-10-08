@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=`, initial-scale=1.0" />
+    <title>Admin</title>
+    <link rel="stylesheet" href="/styles/reset.css" />
+    <link rel="stylesheet" href="/styles/theme.css" />
+    <link rel="stylesheet" href="/styles/admin.css" />
+  </head>
+  <body>
+    <div class="sidebar-menu">
+      <ul>
+        <li><a href="#">Themes</a></li>
+        <li><a href="#">Events</a></li>
+      </ul>
+    </div>
+    <div class="main-content">
+      <% if(currentPage === "themes") { %> <%if (dataArray.length !== 0) { %> <% let index = 0; %> <% dataArray.forEach((result) => { %>
+      <img src="data:image/jpeg;base64,<%= result.image %>" alt="Image Theme <%= index + 1 %>" />
+      <% index++; %> <% }); %> <% } %>
+
+      <h1>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aut quo provident ex nostrum! Velit, non est quae eius molestias pariatur possimus voluptatibus aliquid soluta nihil iure debitis quam
+        vel repudiandae.
+      </h1>
+      <% } %>
+      <h1>test</h1>
+    </div>
+  </body>
+</html>
