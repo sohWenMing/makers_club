@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/theme.css" />
     <link rel="stylesheet" href="/styles/admin.css" />
+    <link href="https://fonts.cdnfonts.com/css/glacial-indifference-2" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/297d42265a.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="sidebar-menu">
@@ -17,15 +19,35 @@
     </div>
     <div class="main-content">
       <% if(currentPage === "themes") { %> <%if (dataArray.length !== 0) { %> <% let index = 0; %> <% dataArray.forEach((result) => { %>
-      <img src="data:image/jpeg;base64,<%= result.image %>" alt="Image Theme <%= index + 1 %>" />
-      <% index++; %> <% }); %> <% } %>
-
-      <h1>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aut quo provident ex nostrum! Velit, non est quae eius molestias pariatur possimus voluptatibus aliquid soluta nihil iure debitis quam
-        vel repudiandae.
-      </h1>
-      <% } %>
-      <h1>test</h1>
+      <div class="event-container">
+        <div class="theme-name-container"><h4><%= result.themeName %></h4></div>
+        <div class="theme-description">
+          <div class="information-title">Theme Information</div>
+          <div class="theme-information"><%= result.themeInformation %></div>
+        </div>
+        <div class="event-image-container">
+          <img src="data:image/jpeg;base64,<%= result.image %>" alt="Image Theme <%= index + 1 %>" />
+        </div>
+        <div class="event-time-period">
+          <div class="information-title">Time Period</div>
+          <% const options = {year: 'numeric', month: 'long' }; %>
+          <div class="time-period-information">
+            <%= result.startDateTime.toLocaleDateString(undefined, options) %><br />
+            to <br />
+            <%= result.endDateTime.toLocaleDateString(undefined, options) %>
+          </div>
+        </div>
+        <div class="icon-section">
+          <div class="icon-container">
+            <i class="fa-regular fa-pen-to-square fa-xl" style="color: #f5cb5c"></i>
+          </div>
+          <div class="icon-container">
+            <i class="fa-regular fa-trash-can fa-xl" style="color: #f5cb5c"></i>
+          </div>
+        </div>
+      </div>
+      <% index++; %> <% }); %> <% } %> <% } %>
+      <!-- <h1>test</h1> -->
     </div>
   </body>
 </html>

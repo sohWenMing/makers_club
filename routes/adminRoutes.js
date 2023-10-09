@@ -21,7 +21,6 @@ router.get("/", requireAuth, (req, res) => {
         const imageString = res.image_data.toString("base64");
         const startDateTime = new Date(res.start_date_time);
         const endDateTime = new Date(res.end_date_time);
-
         return {
           id: res.id,
           themeName: res.theme_name,
@@ -31,14 +30,23 @@ router.get("/", requireAuth, (req, res) => {
           image: imageString,
         };
       });
+      console.log(dataArray);
       dataArray.sort((a, b) => {
-        b.startDateTime - a.startDateTime;
+        return b.startDateTime - a.startDateTime;
       });
-
+      console.log(dataArray);
+      dataArray.forEach((result) => {
+        if (result.startDateTime instanceof Date) {
+          console.log("date");
+        } else {
+          console.log("not date");
+        }
+      });
       res.render("./admin/admin", { currentPage: "themes", dataArray: dataArray });
     })
     .catch((error) => {
       console.log(error);
+      res.send("There was a problem connecting to the database, please try again");
     });
 });
 

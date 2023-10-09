@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db_operations/db_connection");
+const { db } = require("../db_operations/db_connection");
 const bcrypt = require("bcrypt");
 
 router.get("/", (req, res) => {
@@ -10,6 +10,7 @@ router.get("/", (req, res) => {
 router.post("/submit", (req, res) => {
   console.log(req.body.username);
   console.log(req.body.password);
+  console.log(db);
   const selectUser = `
     SELECT * from user
     WHERE user.username = ?`;

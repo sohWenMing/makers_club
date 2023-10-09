@@ -13,7 +13,23 @@
   --fontweight-light: 100;
 
   /* font-sizes */
-  font-size: 16px;
+  /* Typography - Size */
+  --font-size-display: 36px;
+  --font-size-h1: 32px;
+  --font-size-h2: 28px;
+  --font-size-h3: 26px;
+  --font-size-h4: 22px;
+  --font-size-h5: 20px;
+  --font-size-h6: 18px;
+  --font-size-base: 16px;
+  --font-size-s: 14px;
+  --font-size-xs: 12px;
+
+  /* Typography - Weight */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-semi-bold: 600;
+  --font-bold: 700;
 }
 
 * {
@@ -42,4 +58,46 @@
 .btn-primary {
   color: var(--font-gray);
   background-color: var(--color-primary);
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-semi-bold);
+  line-height: 1.25;
+  margin: 0;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-semi-bold);
+  line-height: 1.25;
+  margin: 0;
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-semi-bold);
+  line-height: 1.25;
+  margin: 0;
+}
+
+h4 {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-semi-bold);
+  line-height: 1.25;
+  margin: 0;
+}
+
+h5 {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-semi-bold);
+  line-height: 1.25;
+  margin: 0;
+}
+
+h6 {
+  font-size: var(--font-size-h6);
+  font-weight: var(--font-semi-bold);
+  line-height: 1.25;
+  margin: 0;
 }
