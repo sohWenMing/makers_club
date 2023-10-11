@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/carousel.css" />
+    <title>Carousel</title>
+  </head>
+  <body>
+    <div class="carousel">
+      <button class="carousel__button carousel__button--left">
+        <img src="images/carousel/arrow-left.svg" alt="left-arrow-button" />
+      </button>
+      <div class="carousel__track-container">
+        <ul class="carousel__track">
+          <li class="carousel__slide current--slide">
+            <img src="./images/carousel/image1.webp" class="carousel__image" alt="" />
+          </li>
+          <li class="carousel__slide">
+            <img src="./images/carousel/image2.webp" class="carousel__image" alt="" />
+          </li>
+          <li class="carousel__slide">
+            <img src="./images/carousel/image3.webp" class="carousel__image" alt="" />
+          </li>
+          <li class="carousel__slide">
+            <img src="./images/carousel/image4.webp" class="carousel__image" alt="" />
+          </li>
+          <li class="carousel__slide">
+            <img src="./images/carousel/image5.webp" class="carousel__image" alt="" />
+          </li>
+          <li class="carousel__slide">
+            <img src="./images/carousel/image6.webp" class="carousel__image" alt="" />
+          </li>
+          <li class="carousel__slide">
+            <img src="./images/carousel/image7.webp" class="carousel__image" alt="" />
+          </li>
+        </ul>
+      </div>
+      <button class="carousel__button carousel__button--right">
+        <img src="resources/arrow-right.svg" alt="right-arrow-button" />
+      </button>
+      <div class="carousel__nav">
+        <button class="carousel__indicator active"></button>
+        <button class="carousel__indicator"></button>
+        <button class="carousel__indicator"></button>
+        <button class="carousel__indicator"></button>
+        <button class="carousel__indicator"></button>
+        <button class="carousel__indicator"></button>
+        <button class="carousel__indicator"></button>
+      </div>
+    </div>
+    <script src="./scripts/carousel.js"></script>
+  </body>
+</html>

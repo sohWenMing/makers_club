@@ -30,4 +30,8 @@ router.get("/testSQL", (req, res) => {
   }
   getUser();
 });
+
+router.get("/carousel", (req, res) => {
+  res.render("carousel");
+});
 module.exports = router;
