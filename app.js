@@ -16,8 +16,8 @@ const redisClient = redis.createClient({
 });
 //creates a redisClient to connect the the redis-server instance that was started up before. localhost:6379 is the default server configuation
 
-// redisClient.connect().catch(console.error);
-console.log("Remember to reenable redis");
+redisClient.connect().catch(console.error);
+
 //
 
 let redisStore = new RedisStore({

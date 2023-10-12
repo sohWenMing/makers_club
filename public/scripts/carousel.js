@@ -107,6 +107,25 @@ function resetSlides() {
   setSlidesPosition(slides, slideWidth);
   return {track, slides};
 }
+function getButtonsAndIndicators() {
+  const leftButton = document.querySelector(".carousel__button--left");
+  const rightButton = document.querySelector(".carousel__button--right");
+  const indicators = document.querySelectorAll(".carousel__indicator");
+  const indicatorsArray = Array.from(indicators);
+  return {leftButton, rightButton, indicators, indicatorsArray};
+}
+
+function moveToSlide(slides, indexOfSlide, track, leftButton, rightButton, indicators) {
+  let currentSlide = document.querySelector(".current--slide");
+  let targetSlide = slides[indexOfSlide];
+  const currentIndex = indexOfSlide;
+  moveTrack(targetSlide, track);
+  setCurrentSlideClass(currentSlide, targetSlide);
+  setButtons(currentIndex, indicators, leftButton, rightButton);
+  resetIndicators(indicators, currentIndex);
+  setTextContent(currentIndex);
+  return currentIndex;
+}
 
 function setupCarousel() {
   let clicked = false;
@@ -115,10 +134,7 @@ function setupCarousel() {
   let currentIndex = 0;
   console.log(currentIndex);
   //initializing first position on carousel
-  const leftButton = document.querySelector(".carousel__button--left");
-  const rightButton = document.querySelector(".carousel__button--right");
-  const indicators = document.querySelectorAll(".carousel__indicator");
-  const indicatorsArray = Array.from(indicators);
+  const {leftButton, rightButton, indicators, indicatorsArray} = getButtonsAndIndicators();
   leftButton.style.display = "none";
   leftButton.addEventListener("click", function scrollLeft() {
     clicked = true;
@@ -134,42 +150,41 @@ function setupCarousel() {
   indicators.forEach((indicator) => {
     indicator.addEventListener("click", function clickIndicator() {
       clicked = true;
-      let currentSlide = document.querySelector(".current--slide");
-      let targetSlide = slides[indicatorsArray.indexOf(indicator)];
-      currentIndex = indicatorsArray.indexOf(indicator);
-      moveTrack(targetSlide, track);
-      setCurrentSlideClass(currentSlide, targetSlide);
-      setButtons(currentIndex, indicators, leftButton, rightButton);
-      resetIndicators(indicators, currentIndex);
-      setTextContent(currentIndex);
+      const indexOfSlide = indicatorsArray.indexOf(indicator)
+      currentIndex = moveToSlide(slides, indexOfSlide, track, leftButton, rightButton, indicators)
     });
   });
-};
 
-
-  // set an interval so that the image changes every second
-  // function moveCarousel() {
-  //   if (currentIndex !== indicators.length - 1 && carouselEnded === false && clicked === false) {
-  //     currentIndex += 1;
-  //     scroll("right", currentIndex, track, indicators, leftButton, rightButton);
+  function moveCarousel() {
+    if (currentIndex !== indicators.length - 1 && carouselEnded === false && clicked === false) {
+      currentIndex += 1;
+      scroll("right", currentIndex, track, indicators, leftButton, rightButton);
       
-  //   } else {
-  //     carouselEnded = true;
-  //   }
-  // }
-  // setInterval(moveCarousel, 3000);
+    } else {
+      carouselEnded = true;
+    }
+  }
+  setInterval(moveCarousel, 3000);
+
+  window.addEventListener('resize', () => {
+    console.log('window resized');
+    resetSlides();
+    clicked = false;
+    carouselEnded = false;
+    currentIndex = moveToSlide(slides, 0, track, leftButton, rightButton, indicators);
+    // const {leftButton, rightButton, indicators, indicatorsArray} = getButtonsAndIndicators();
+    })
+};
+document.addEventListener("DOMContentLoaded", () => {
+  setupCarousel();
+});
+
 
   //move slide back to first slide 
   //reset index
   //reset active slide
   //reset textcontent
 
-document.addEventListener("DOMContentLoaded", () => {
-  setupCarousel();
-  window.addEventListener('resize', () => {
-    console.log('window resized');
-    resetSlides();
-    })
-});
+
 
 
