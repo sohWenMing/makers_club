@@ -44,6 +44,27 @@
   margin-bottom: var(--space-s);
 }
 
+/* setting up responsive mobile versus desktop */
+#content {
+  background-color: white;
+}
+
+.mobile-container {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  align-content: center;
+}
+
+@media only screen and (max-width: 700px) {
+  .mobile-container {
+    display: block;
+  }
+  .desktop-container {
+    display: none;
+  }
+}
+
 .btn {
   font-size: 20px;
   width: 140px;
@@ -153,3 +174,4 @@ footer img {
 .card .card-right-panel .card-right-panel-header {
   color: var(--color-primary);
 }
+

@@ -1,28 +1,9 @@
-#content {
-  background-color: white;
-}
 
-.mobile-flex-container {
-  display: none;
-  flex-direction: column;
-  width: 100%;
-  align-content: center;
-}
-
-@media only screen and (max-width: 700px) {
-  .mobile-flex-container {
-    display: flex;
-  }
-  .home-screen-container {
-    display: none;
-  }
-}
-
-.mobile-flex-container .image-container {
+.mobile-container .image-container {
   width: 100vw;
   position: relative;
 }
-.mobile-flex-container .image-container img {
+.mobile-container .image-container img {
   width: 100%;
   opacity: 0.6;
 }
@@ -39,15 +20,6 @@
   justify-content: center;
   font-size: 8vw;
 }
-
-/* .mobile-flex-container h1 {
-  position: relative;
-  top: 22.5vh;
-  z-index: 10;
-  color: var(--font-gray);
-  font-family: var(--header-font);
-  margin: 0 auto;
-} */
 
 .mobile-container-panel {
   position: relative;
