@@ -64,13 +64,12 @@
     display: none;
   }
 }
-
+/* buttons */
 .btn {
   font-size: 20px;
   width: 140px;
   height: 35px;
   border-radius: 10px;
-  /* border: 2px solid var(--font-gray); */
   font-family: var(--header-font);
   letter-spacing: 1.5px;
   box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
@@ -87,6 +86,7 @@
   background-color: var(--color-primary);
 }
 
+/* heading sizes */
 h1 {
   font-size: var(--font-size-h1);
   font-weight: var(--font-semi-bold);
@@ -128,7 +128,10 @@ h6 {
   font-weight: var(--font-semi-bold);
   line-height: 1.25;
   margin: 0;
+
+/* footer, will be applied to every page */
 }
+
 footer {
   width: 100%;
   display: flex;
