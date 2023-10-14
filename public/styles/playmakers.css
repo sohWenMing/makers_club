@@ -1,0 +1,52 @@
+
+#playmakers-groupshot-mobile {
+width: 100vw;
+    
+}
+.playmakers-header {
+    text-align: center;
+    margin: var(--space-m);
+}
+
+.playmakers-header h1 {
+    color: var(--color-primary);
+    
+}
+
+.playmakers-description {
+    font-family: var(--main-font);
+    font-weight: var(--fontweight-light);
+}
+
+.playmakers-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--space-m);
+    
+}
+
+.content {
+    aspect-ratio: 1;
+    width: 100%;
+    background-color: red;
+    position: relative;
+    top: -3px;
+}
+
+.content.content-1 {
+    background-color: var(--color-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-l);
+}
+
+
+
+@media only screen and (max-width: 700px) {
+    .playmakers-content {
+      grid-template-columns: repeat(1, 1fr);
+    }
+}
+  
