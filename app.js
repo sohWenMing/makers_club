@@ -37,6 +37,8 @@ app.use(
   })
 );
 
+const [errorLogger, errorResponder, invalidPathHandler] = require("./error_handlers/handlers");
+
 const path = require("path");
 const ejs = require("ejs");
 const bodyParser = require("body-parser");
@@ -51,9 +53,9 @@ app.use(bodyParser.json());
 
 require("./routes/index")(app);
 
-app.use((req, res) => {
-  res.send("Page not found");
-});
+app.use(errorLogger);
+app.use(errorResponder);
+app.use(invalidPathHandler);
 
 app.listen(port, () => {
   console.log(`We are getting something on port ${port}`);
