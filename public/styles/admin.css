@@ -49,6 +49,7 @@ body {
   border: 1px solid var(--font-gray);
   margin-bottom: var(--space-m);
   display: flex;
+  min-width: 810px;
 }
 
 .event-container .theme-name-container {
