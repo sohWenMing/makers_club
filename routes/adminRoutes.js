@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db_operations/db_connection");
-const dbAll = db.dbAll;
+const { db, dbAll } = require("../db_operations/db_connection");
 const requireAuth = require("../auth/auth");
 
 router.get("/", requireAuth, async (req, res, next) => {
