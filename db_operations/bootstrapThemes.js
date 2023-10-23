@@ -1,4 +1,4 @@
-const db = require("./db_create_connection.js");
+const{db} = require("./db_connection.js");
 const prepBlobData = require("../helper_functions/prepBlobData.js");
 const { getISOString } = require("../helper_functions/timeFunctions.js");
 const createImageTable = `

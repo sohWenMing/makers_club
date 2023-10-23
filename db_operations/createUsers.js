@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const db = require("./db_create_connection.js");
+const {db, dbAll, dbGet } = require("./db_connection.js");
 
 const createTable = `
   CREATE TABLE user (
