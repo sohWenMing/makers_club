@@ -13,7 +13,7 @@ router.get("/", requireAuth, async (req, res, next) => {
     dataArray = themes.map((theme) => {
       const trimmedTheme = theme.theme_information.trim();
       const cleanedTheme = trimmedTheme.replace(/\s+/g, " ");
-      const imageString = theme.image_data.toString("base64");
+      const image_url = theme.image_url;
       const startDateTime = new Date(theme.start_date_time);
       const endDateTime = new Date(theme.end_date_time);
       return {
@@ -22,7 +22,7 @@ router.get("/", requireAuth, async (req, res, next) => {
         themeInformation: cleanedTheme,
         startDateTime: startDateTime,
         endDateTime: endDateTime,
-        image: imageString,
+        image_url: image_url,
       };
     });
     dataArray.sort((a, b) => {

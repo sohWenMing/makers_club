@@ -26,7 +26,7 @@
           <div class="theme-information"><%= result.themeInformation %></div>
         </div>
         <div class="event-image-container">
-          <img src="data:image/jpeg;base64,<%= result.image %>" alt="Image Theme <%= index + 1 %>" />
+          <img src="<%= result.image_url %>" alt="Image Theme <%= index + 1 %>" />
         </div>
         <div class="event-time-period">
           <div class="information-title">Time Period</div>

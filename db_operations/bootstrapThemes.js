@@ -1,4 +1,4 @@
-const{db} = require("./db_connection.js");
+const { db } = require("./db_connection.js");
 const prepBlobData = require("../helper_functions/prepBlobData.js");
 const { getISOString } = require("../helper_functions/timeFunctions.js");
 const createImageTable = `
@@ -8,7 +8,7 @@ CREATE TABLE themes (
     theme_information TEXT,
     start_date_time TEXT,
     end_date_time TEXT,
-    image_data BLOB
+    image_url TEXT
 )
 `;
 db.run(createImageTable, [], (err) => {
@@ -20,12 +20,12 @@ db.run(createImageTable, [], (err) => {
 });
 
 class Theme {
-  constructor(themeName, themeInformation, startDateTime, endDateTime, imageData) {
+  constructor(themeName, themeInformation, startDateTime, endDateTime, image_url) {
     this.themeName = themeName;
     this.themeInformation = themeInformation;
     this.startDateTime = startDateTime;
     this.endDateTime = endDateTime;
-    this.imageData = imageData;
+    this.image_url = image_url;
   }
 }
 
@@ -41,7 +41,7 @@ const kampongKatong = new Theme(
     `,
   getISOString("2023-04-01T00:00:00.000"),
   getISOString("2023-06-30T00:00:00.000"),
-  prepBlobData("../resources/kampong_katong.webp")
+  "/resources/uploaded/kampong_katong.webp"
 );
 
 const gamesWePlay = new Theme(
@@ -54,7 +54,7 @@ const gamesWePlay = new Theme(
      `,
   getISOString("2023-07-01T00:00:00.000"),
   getISOString("2023-09-30T00:00:00.000"),
-  prepBlobData("../resources/games_we_play.webp")
+  "/resources/uploaded/games_we_play.webp"
 );
 
 themesData.push(kampongKatong);
@@ -66,12 +66,12 @@ const insertThemes = `
         theme_information, 
         start_date_time, 
         end_date_time,
-        image_data) VALUES(?, ?, ?, ?, ?)
+        image_url) VALUES(?, ?, ?, ?, ?)
     `;
 
 db.serialize(() => {
   themesData.forEach((theme) => {
-    db.run(insertThemes, [theme.themeName, theme.themeInformation, theme.startDateTime, theme.endDateTime, theme.imageData], function (err) {
+    db.run(insertThemes, [theme.themeName, theme.themeInformation, theme.startDateTime, theme.endDateTime, theme.image_url], function (err) {
       if (err) {
         console.log(err.message);
       } else {
