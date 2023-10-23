@@ -109,9 +109,11 @@ body {
   display: flex;
   justify-content: space-around;
   flex: 1;
+  cursor: pointer;
 }
 .icon-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
