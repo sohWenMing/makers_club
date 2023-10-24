@@ -8,7 +8,7 @@
   z-index: 3;
   display: none;
   background-color: rgba(0, 0, 0, 0.4);
-  display: block;
+  display: none;
 }
 
 .modal.active {
@@ -21,7 +21,7 @@
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
-  height: 50%;
+  /* height: 50%; */
   opacity: 1;
   transition: opacity 2s ease-in-out;
   border: 2px solid var(--color-primary);
@@ -32,14 +32,16 @@
   display: flex;
   justify-content: flex-end;
 }
-.close {
+.modal-close-button {
   color: #aaaaaa;
-  font-size: 40px;
-  font-weight: bold;
+    font-size: 40px;
+    font-weight: bold;
+    position: relative;
+    top: -1rem;
 }
 
-.close:hover,
-.close:focus {
+.modal-close-button:hover,
+.modal-close-button:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
