@@ -3,7 +3,7 @@ const router = express.Router();
 const { db, dbAll } = require("../db_operations/db_connection");
 const requireAuth = require("../auth/auth");
 // remember to implement requireAuth back
-router.get("/", async (req, , requireAuth, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const sql = "select * from themes";
     const themes = await dbAll(sql);
