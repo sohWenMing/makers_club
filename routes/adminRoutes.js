@@ -21,6 +21,7 @@ router.get("/", async (req, res, next) => {
         startDateTime: startDateTime,
         endDateTime: endDateTime,
         image_url: image_url,
+        page: "themes"
       };
     });
     dataArray.sort((a, b) => {
