@@ -28,7 +28,7 @@
 }
 
 .close-top {
-  height: var(--space-base);
+  height: var(--space-s);
   display: flex;
   justify-content: flex-end;
 }
@@ -45,4 +45,8 @@
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.textinput-div, .textarea-div {
+  margin: var(--space-m);
 }

@@ -8,6 +8,8 @@ function generateDateString(data) {
   return dateString;
 };
 
+// import { generateDateString } from '../../helper_functions/timeFunctions.js';
+
 function generateFormElement(inputType, classElements, isTextArea, loadedInformation, id=0, labelText = "default") {
   const formElementDiv = document.createElement('div');
 
@@ -79,11 +81,14 @@ document.addEventListener("DOMContentLoaded", () => {
       newForm.appendChild(bottomSection);
 
       if(dataAttributes['page'] === 'themes') {
-        const themeNameInput = generateFormElement('input', ['modal-input'], false, dataAttributes['theme-name'], generateId("themes", dataAttributes['theme-id'], "Theme Name"));
-        const themeInformationInput = generateFormElement('textarea', ['modal-text-area'], true, dataAttributes["theme-information"])
-        const startDateInput = generateFormElement('input', ['modal-input', 'modal-start-date'], false, generateDateString(dataAttributes["start-date-time"]));
-        const endDateInput = generateFormElement('input', ['modal-input', 'modal-end-date'], false, generateDateString(dataAttributes["end-date-time"]));
+        const editHeader = document.createElement('h1');
+        editHeader.innerText = "Edit Theme"
+        const themeNameInput = generateFormElement('input', ['modal-input'], false, dataAttributes['theme-name'], generateId("themes", dataAttributes['theme-id']), "Theme Name");
+        const themeInformationInput = generateFormElement('textarea', ['modal-text-area'], true, dataAttributes["theme-information"], generateId("themes", dataAttributes['theme-id']), "Theme Information");
+        const startDateInput = generateFormElement('input', ['modal-input', 'modal-start-date', "datetimepicker"], false, generateDateString(dataAttributes["start-date-time"]) ,generateId("themes", dataAttributes['theme-id']), "Start Date");
+        const endDateInput = generateFormElement('input', ['modal-input', 'modal-end-date', "datetimepicker"], false, generateDateString(dataAttributes["end-date-time"]), generateId("themes", dataAttributes['theme-id']), "End Date");
         console.log(startDateInput, endDateInput);
+        topSection.appendChild(editHeader);
         topSection.appendChild(themeNameInput);
         topSection.appendChild(startDateInput);
         topSection.appendChild(endDateInput);
