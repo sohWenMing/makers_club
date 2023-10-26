@@ -5,7 +5,7 @@ function getISOString(dateString) {
   return UTCString;
 }
 
-function generateDateString(data) {
+export function generateDateString(data) {
   const dateData = data;
   const date = new Date(dateData);
   const day = date.getDate().toString().padStart(2, '0');

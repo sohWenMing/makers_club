@@ -93,8 +93,14 @@ document.addEventListener("DOMContentLoaded", () => {
         topSection.appendChild(startDateInput);
         topSection.appendChild(endDateInput);
         bottomSection.appendChild(themeInformationInput);
+        // console.log("Before flatpickr initialization", document.querySelectorAll('.datetimepicker').length);
+        // flatpickr('.datetimepicker', {});
+        // console.log("After flatpickr initialization", document.querySelectorAll('.datetimepicker').length);
     };
     modalContent.append(newForm);
+    console.log("Before flatpickr initialization", document.querySelectorAll('.datetimepicker').length);
+    flatpickr('.datetimepicker', {});
+    console.log("After flatpickr initialization", document.querySelectorAll('.datetimepicker').length);
 
   });
 });
