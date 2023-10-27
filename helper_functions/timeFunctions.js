@@ -5,7 +5,7 @@ function getISOString(dateString) {
   return UTCString;
 }
 
-export function generateDateString(data) {
+function generateDateString(data) {
   const dateData = data;
   const date = new Date(dateData);
   const day = date.getDate().toString().padStart(2, '0');
@@ -13,8 +13,8 @@ export function generateDateString(data) {
   const year = date.getFullYear();
   const dateString = day + "/" + month + "/" + year;
   return dateString;
-};
+}
 
-module.exports = {
-  getISOString, generateDateString
-};
+// module.exports = {
+//   getISOString, generateDateString
+// };
