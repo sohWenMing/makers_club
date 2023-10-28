@@ -26,6 +26,7 @@
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+  min-width: 900px;
   /* height: 50%; */
   opacity: 1;
   transition: opacity 2s ease-in-out;

@@ -8,6 +8,23 @@ function generateDateString(data) {
   return dateString;
 }
 
+function imagePreview() {
+  // const previewImage = document.getElementById(theme_image_id);
+  const previewImage = document.getElementById("theme-preview-image");
+  const imageInput = document.getElementById("image-input");
+
+  if (imageInput.files && imageInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      previewImage.src = event.target.result;
+    };
+
+    reader.readAsDataURL(imageInput.files[0]);
+  }
+
+  // console.log(previewImage);
+}
+
 // import { generateDateString } from '../../helper_functions/timeFunctions.js';
 
 function generateFormElement(inputType, classElements, isTextArea, loadedInformation, id = 0, labelText = "default") {
@@ -143,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
         imageInput.setAttribute("type", "file");
         imageInput.setAttribute("id", "image-input");
         imageInput.setAttribute("accept", "image/*");
+        imageInput.addEventListener("change", imagePreview);
         imageInputDiv.appendChild(imageInput);
         modalFormRight.appendChild(imageInputDiv);
 
