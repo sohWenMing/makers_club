@@ -3,7 +3,7 @@ const router = express.Router();
 const { db, dbAll } = require("../db_operations/db_connection");
 const requireAuth = require("../auth/auth");
 // remember to implement requireAuth back
-router.get("/", requireAuth, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const sql = "select * from themes";
     const themes = await dbAll(sql);
@@ -22,6 +22,7 @@ router.get("/", requireAuth, async (req, res, next) => {
         endDateTime: endDateTime,
         image_url: image_url,
         page: "themes",
+        existing: "true",
       };
     });
     dataArray.sort((a, b) => {

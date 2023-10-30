@@ -8,6 +8,8 @@ function generateDateString(data) {
   return dateString;
 }
 
+//function to generateDateStrings used for inputs
+
 function imagePreview() {
   // const previewImage = document.getElementById(theme_image_id);
   const previewImage = document.getElementById("theme-preview-image");
@@ -21,13 +23,32 @@ function imagePreview() {
 
     reader.readAsDataURL(imageInput.files[0]);
   }
-
-  // console.log(previewImage);
 }
 
-// import { generateDateString } from '../../helper_functions/timeFunctions.js';
+function getDataAttributes(element) {
+  console.log(element, element.attributes);
+  const dataAttributes = {};
+  for (const attr of element.attributes) {
+    if (attr.name.startsWith("data-")) {
+      dataAttributes[attr.name.replace("data-", "")] = attr.value;
+    }
+  }
+  return dataAttributes;
+}
 
-function generateFormElement(inputType, classElements, isTextArea, loadedInformation, id = 0, labelText = "default") {
+function generateNewForm(documentToAppend) {
+  const newForm = document.createElement("form");
+  newForm.classList.add("modal-form");
+  const modalFormLeft = document.createElement("div");
+  modalFormLeft.classList.add("modal-form-left");
+  const modalFormRight = document.createElement("div");
+  modalFormRight.classList.add("modal-form-right");
+  newForm.appendChild(modalFormLeft);
+  newForm.appendChild(modalFormRight);
+  documentToAppend.append(newForm);
+}
+
+function generateFormElement(inputType, classElements, isTextArea, loadedInformation = "", id = 0, labelText = "default") {
   const formElementDiv = document.createElement("div");
 
   const label = document.createElement("label");
@@ -65,7 +86,6 @@ function generateId(recordType, id) {
   const returnedId = recordType + "-" + id;
   return returnedId;
 }
-//function to generateDateStrings used for inputs
 
 document.addEventListener("DOMContentLoaded", () => {
   const editIcons = document.querySelectorAll("[data-icon-type=edit-icon]");
@@ -79,22 +99,12 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.classList.toggle("active");
       modalContent.classList.toggle("active");
 
-      //get all the data attributes, the icon attributes have all the data relating to the entry
-      const dataAttributes = {};
-      for (const attr of icon.attributes) {
-        //go through all the attributes, pick only the ones that start with data-, then remove data- from those names and use that as a key, storing the value of the attribute as the value
-        if (attr.name.startsWith("data-")) {
-          dataAttributes[attr.name.replace("data-", "")] = attr.value;
-        }
-      }
-      const newForm = document.createElement("form");
-      newForm.classList.add("modal-form");
-      const modalFormLeft = document.createElement("div");
-      modalFormLeft.classList.add("modal-form-left");
-      const modalFormRight = document.createElement("div");
-      modalFormRight.classList.add("modal-form-right");
-      newForm.appendChild(modalFormLeft);
-      newForm.appendChild(modalFormRight);
+      const dataAttributes = getDataAttributes(icon);
+
+      generateNewForm(modalContent);
+
+      const modalFormLeft = document.querySelector(".modal-form-left");
+      const modalFormRight = document.querySelector(".modal-form-right");
 
       //sets up the initial segments of the form: splitting it down the middle where CSS will have a 2 grid layout
 
@@ -107,8 +117,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (dataAttributes["page"] === "themes") {
         const editHeader = document.createElement("h1");
-        editHeader.innerText = "Edit Theme";
+        if (dataAttributes["existing"] === "true") {
+          editHeader.innerText = "Edit Theme";
+        } else {
+          editHeader.innerText = "New Theme";
+        }
+
         const themeNameInput = generateFormElement("input", ["modal-input"], false, dataAttributes["theme-name"], generateId("themes", dataAttributes["theme-id"]), "Theme Name");
+
         const themeInformationInput = generateFormElement(
           "textarea",
           ["modal-text-area"],
@@ -169,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.innerText = "Submit";
         modalFormRight.appendChild(submitButton);
       }
-      modalContent.append(newForm);
+      // modalContent.append(newForm);
 
       flatpickr(".datetimepicker", {
         altInput: true,
