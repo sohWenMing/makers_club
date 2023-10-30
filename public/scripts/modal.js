@@ -48,6 +48,24 @@ function generateNewForm(documentToAppend) {
   documentToAppend.append(newForm);
 }
 
+function generateNewFormWithLeftRightSections(documentToAppend) {
+  generateNewForm(documentToAppend);
+  const formElements = {};
+  const modalFormLeft = document.querySelector(".modal-form-left");
+  const modalFormRight = document.querySelector(".modal-form-right");
+  const leftTopSection = document.createElement("div");
+  leftTopSection.classList.add("modal-form-left-top-section");
+  modalFormLeft.appendChild(leftTopSection);
+  const leftBottomSection = document.createElement("div");
+  leftBottomSection.classList.add("modal-form-left-bottom-section");
+  modalFormLeft.appendChild(leftBottomSection);
+  formElements.modalFormLeft = modalFormLeft;
+  formElements.modalFormRight = modalFormRight;
+  formElements.leftTopSection = leftTopSection;
+  formElements.leftBottomSection = leftBottomSection;
+  return formElements;
+}
+
 function generateFormElement(inputType, classElements, isTextArea, loadedInformation = "", id = 0, labelText = "default") {
   const formElementDiv = document.createElement("div");
 
@@ -101,19 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const dataAttributes = getDataAttributes(icon);
 
-      generateNewForm(modalContent);
-
-      const modalFormLeft = document.querySelector(".modal-form-left");
-      const modalFormRight = document.querySelector(".modal-form-right");
-
-      //sets up the initial segments of the form: splitting it down the middle where CSS will have a 2 grid layout
-
-      const leftTopSection = document.createElement("div");
-      leftTopSection.classList.add("modal-form-left-top-section");
-      modalFormLeft.appendChild(leftTopSection);
-      const leftBottomSection = document.createElement("div");
-      leftBottomSection.classList.add("modal-form-left-bottom-section");
-      modalFormLeft.appendChild(leftBottomSection);
+      formElements = generateNewFormWithLeftRightSections(modalContent);
 
       if (dataAttributes["page"] === "themes") {
         const editHeader = document.createElement("h1");
@@ -123,50 +129,44 @@ document.addEventListener("DOMContentLoaded", () => {
           editHeader.innerText = "New Theme";
         }
 
-        const themeNameInput = generateFormElement("input", ["modal-input"], false, dataAttributes["theme-name"], generateId("themes", dataAttributes["theme-id"]), "Theme Name");
+        const themeNameInput = generateFormElement("input", ["modal-input"], false, dataAttributes["theme-name"] || "", generateId("themes", dataAttributes["theme-id"] || "0"), "Theme Name");
 
         const themeInformationInput = generateFormElement(
           "textarea",
           ["modal-text-area"],
           true,
-          dataAttributes["theme-information"],
-          generateId("themes", dataAttributes["theme-id"]),
+          dataAttributes["theme-information"] || "",
+          generateId("themes", dataAttributes["theme-id"] || "0"),
           "Theme Information"
         );
         const startDateInput = generateFormElement(
           "input",
           ["modal-input", "modal-start-date", "datetimepicker"],
           false,
-          generateDateString(dataAttributes["start-date-time"]),
-          generateId("themes", dataAttributes["theme-id"]),
+          generateDateString(dataAttributes["start-date-time"] || ""),
+          generateId("themes", dataAttributes["theme-id"] || "0"),
           "Start Date"
         );
         const endDateInput = generateFormElement(
           "input",
           ["modal-input", "modal-end-date", "datetimepicker"],
           false,
-          generateDateString(dataAttributes["end-date-time"]),
-          generateId("themes", dataAttributes["theme-id"]),
+          generateDateString(dataAttributes["end-date-time"] || ""),
+          generateId("themes", dataAttributes["theme-id"] || 0),
           "End Date"
         );
-        leftTopSection.appendChild(editHeader);
-        leftTopSection.appendChild(themeNameInput);
-        leftTopSection.appendChild(startDateInput);
-        leftTopSection.appendChild(endDateInput);
-        leftBottomSection.appendChild(themeInformationInput);
-        /// working on right section
-
-        const rightFirstColumn = document.createElement("div");
-        rightFirstColumn.classList.add("modal-form-right-section-first-column");
-        const rightSecondColumn = document.createElement("div");
-        rightSecondColumn.classList.add("modal-form-right-section-second-column");
+        formElements.leftTopSection.appendChild(editHeader);
+        formElements.leftTopSection.appendChild(themeNameInput);
+        formElements.leftTopSection.appendChild(startDateInput);
+        formElements.leftTopSection.appendChild(endDateInput);
+        formElements.leftBottomSection.appendChild(themeInformationInput);
 
         const image = document.createElement("img");
         image.setAttribute("src", dataAttributes["image-url"]);
         image.setAttribute("alt", "theme " + dataAttributes["theme-name"] + "-image");
         image.setAttribute("id", "theme-preview-image");
         image.classList.add("modal-theme-image");
-        modalFormRight.appendChild(image);
+        formElements.modalFormRight.appendChild(image);
 
         const imageInputDiv = document.createElement("div");
         imageInputDiv.classList.add("modal-image-input-div");
@@ -178,14 +178,13 @@ document.addEventListener("DOMContentLoaded", () => {
         imageInput.setAttribute("accept", "image/*");
         imageInput.addEventListener("change", imagePreview);
         imageInputDiv.appendChild(imageInput);
-        modalFormRight.appendChild(imageInputDiv);
+        formElements.modalFormRight.appendChild(imageInputDiv);
 
         const submitButton = document.createElement("button");
         submitButton.classList.add("btn", "btn-primary");
         submitButton.innerText = "Submit";
-        modalFormRight.appendChild(submitButton);
+        formElements.modalFormRight.appendChild(submitButton);
       }
-      // modalContent.append(newForm);
 
       flatpickr(".datetimepicker", {
         altInput: true,
