@@ -61,14 +61,14 @@
             ></i>
           </div>
           <div class="icon-container">
-            <i class="fa-regular fa-trash-can fa-xl" style="color: #f5cb5c"></i>
+            <i class="fa-regular fa-trash-can fa-xl delete-icon" style="color: #f5cb5c" data-theme-id="<%= result.id %>"></i>
           </div>
         </div>
       </div>
 
       <% index++; %> <% }); %> <% } %> <% } %>
       <div class="theme-submit-new-container">
-        <button class="btn btn-primary" data-page="themes" data-existing="false"></button>>New Theme</button>
+        <button class="btn btn-primary" data-page="themes" data-existing="false" id="new-theme-button">New Theme</button>
       </div>
       <!-- <h1>test</h1> -->
     </div>

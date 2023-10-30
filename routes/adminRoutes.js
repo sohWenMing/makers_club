@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const { db, dbAll } = require("../db_operations/db_connection");
+const bodyParser = require("body-parser");
 const requireAuth = require("../auth/auth");
 // remember to implement requireAuth back
 router.get("/", async (req, res, next) => {
@@ -33,6 +38,12 @@ router.get("/", async (req, res, next) => {
     error.message = error.message + "\n Error is coming from admin page";
     next(error);
   }
+});
+
+router.post("/themes", (req, res) => {
+  console.log("definitely getting pinged here");
+  res.send("getting something from themes");
+  console.log(req.body);
 });
 
 module.exports = router;
