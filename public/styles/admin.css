@@ -44,8 +44,6 @@ body {
   width: 80%;
 }
 
-
-
 .event-container {
   width: 100%;
   border: 1px solid var(--font-gray);
@@ -118,4 +116,9 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+.theme-submit-new-container {
+  display: flex;
+  justify-content: flex-end;
 }
