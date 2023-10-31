@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 const { db, dbAll } = require("../db_operations/db_connection");
 const bodyParser = require("body-parser");
 const requireAuth = require("../auth/auth");
+const { getDateTimeFromString } = require("../helper_functions/timeFunctions");
+
+const multer = require("multer");
+const upload = multer({ dest: "../public/resources/uploaded" });
+
 // remember to implement requireAuth back
 router.get("/", async (req, res, next) => {
   try {
@@ -40,10 +42,32 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/themes", (req, res) => {
-  console.log("definitely getting pinged here");
-  res.send("getting something from themes");
+router.post("/themes", upload.single("fileUpload"), (req, res) => {
+  if (req.file) {
+    console.log("filename", req.file.filename);
+  }
+  // return res.status(400).send("Just some error");
+
   console.log(req.body);
+
+  const startDate = getDateTimeFromString(req.body["Start Date"]);
+  const endDate = getDateTimeFromString(req.body["End Date"]);
+  if (req.body["Theme Name"].length > 50) {
+    return res.status(400).send("Theme name cannot be over 50 characters");
+  }
+  if (req.body["Theme Information"].length > 250) {
+    return res.status(400).send("Theme information cannot be more than 250 characters");
+  }
+  if (startDate === null) {
+    return res.status(400).send("start date must be a valid date");
+  }
+  if (endDate === null) {
+    return res.status(400).send("end date must be a valid date");
+  }
+  if (endDate < startDate) {
+    return res.status(400).send("end date cannot be before start date");
+  }
+  res.send("getting something from themes");
 });
 
 module.exports = router;

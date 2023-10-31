@@ -40,6 +40,9 @@ app.use(
 
 const [errorLogger, errorResponder, invalidPathHandler] = require("./error_handlers/handlers");
 
+const multer = require("multer");
+const upload = multer({ dest: "./public/resources/uploaded" });
+
 const path = require("path");
 const ejs = require("ejs");
 const bodyParser = require("body-parser");
@@ -47,13 +50,15 @@ const port = 3000;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, 'helper_functions'), {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.js')) {
-      res.set('Content-Type', 'application/javascript');
-    }
-  },
-}));
+app.use(
+  express.static(path.join(__dirname, "helper_functions"), {
+    setHeaders: (res, path) => {
+      if (path.endsWith(".js")) {
+        res.set("Content-Type", "application/javascript");
+      }
+    },
+  })
+);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.urlencoded({ extended: true }));

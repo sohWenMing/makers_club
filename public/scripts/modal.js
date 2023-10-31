@@ -183,6 +183,7 @@ function generateThemeForm(element) {
   imageInput.setAttribute("type", "file");
   imageInput.setAttribute("id", "image-input");
   imageInput.setAttribute("accept", "image/*");
+  imageInput.setAttribute("name", "image-input");
   imageInput.addEventListener("change", imagePreview);
   imageInputDiv.appendChild(imageInput);
   formElements.modalFormRight.appendChild(imageInputDiv);
@@ -220,13 +221,18 @@ function generateThemeForm(element) {
       body: formData,
     })
       .then((response) => {
+        if (!response.ok) {
+          return response.text().then((errorText) => {
+            throw new Error(errorText);
+          });
+        }
         response.text();
       })
       .then((text) => {
         console.log(text);
       })
       .catch((error) => {
-        console.error(error);
+        alert(error.message);
       });
   });
 }

@@ -78,3 +78,7 @@
 .modal-image-input-div {
   margin-bottom: var(--space-s);
 }
+
+.textinput-div {
+  margin: var(--space-s) 0;
+}
