@@ -1,3 +1,13 @@
+function getDateTimeFromString(dateString) {
+  const dateparts = dateString.split("-");
+  const day = parseInt(dateparts[0], 10);
+  const month = parseInt(dateparts[1], 10) - 1;
+  const year = parseInt(dateparts[2], 10);
+  const dateTime = new Date(year, month, day);
+  const dateTimeInUTC = new Date(dateTime.setHours(dateTime.getHours() + 2));
+  return dateTimeInUTC;
+}
+
 function generateDateString(data) {
   const dateData = data;
   const date = new Date(dateData);
@@ -33,7 +43,7 @@ function getDataAttributes(element) {
   return dataAttributes;
 }
 
-function generateNewForm(documentToAppend) {
+function generateNewForm(documentToAppend, IsSetParleyValidate = false) {
   const newForm = document.createElement("form");
   newForm.classList.add("modal-form");
   const modalFormLeft = document.createElement("div");
@@ -42,11 +52,25 @@ function generateNewForm(documentToAppend) {
   modalFormRight.classList.add("modal-form-right");
   newForm.appendChild(modalFormLeft);
   newForm.appendChild(modalFormRight);
+
+  if (IsSetParleyValidate === true) {
+    newForm.setAttribute("data-parsley-validate", "");
+  }
   documentToAppend.append(newForm);
 }
 
+function setEndPoint(route, form) {
+  // const form = document.querySelector("form");
+  if (route === "themes") {
+    form.action = "/admin/themes";
+    form.method = "post";
+    form.enctype = "multipart/form-data";
+    return form;
+  }
+}
+
 function generateNewFormWithLeftRightSections(documentToAppend) {
-  generateNewForm(documentToAppend);
+  generateNewForm(documentToAppend, true);
   const formElements = {};
   const modalFormLeft = document.querySelector(".modal-form-left");
   const modalFormRight = document.querySelector(".modal-form-right");
@@ -63,7 +87,7 @@ function generateNewFormWithLeftRightSections(documentToAppend) {
   return formElements;
 }
 
-function generateFormElement(inputType, classElements, isTextArea, loadedInformation = "", id = 0, labelText = "default") {
+function generateFormElement(inputType, classElements, isTextArea, loadedInformation = "", id = 0, labelText = "default", parsley_validation = "") {
   const formElementDiv = document.createElement("div");
 
   const label = document.createElement("label");
@@ -89,7 +113,11 @@ function generateFormElement(inputType, classElements, isTextArea, loadedInforma
     formElementDiv.classList.add("textinput-div");
   }
   formElement.name = labelText;
+  if (parsley_validation != "") {
+    formElement.setAttribute(parsley_validation, "");
+  }
   //definition of text input
+
   for (let element of classElements) {
     formElement.classList.add(element);
   }
@@ -113,15 +141,6 @@ function getModalAndModalContent() {
   return modalObject;
 }
 
-function setEndPoint(route, form) {
-  // const form = document.querySelector("form");
-  if (route === "themes") {
-    form.action = "/admin/themes";
-    form.method = "post";
-    form.enctype = "multipart/form-data";
-    return form;
-  }
-}
 function generateThemeForm(element) {
   const { modal, modalContent } = getModalAndModalContent();
   const dataAttributes = getDataAttributes(element);
@@ -136,11 +155,20 @@ function generateThemeForm(element) {
     editHeader.innerText = "New Theme";
   }
 
-  const themeNameInput = generateFormElement("input", ["modal-input"], false, dataAttributes["theme-name"] || "", generateId("themes", dataAttributes["theme-id"] || "0"), "Theme Name");
+  const themeNameInput = generateFormElement(
+    "input",
+    ["modal-input"],
+    false,
+    dataAttributes["theme-name"] || "",
+    generateId("themes", dataAttributes["theme-id"] || "0"),
+    "Theme Name",
+    "data-parsley-required",
+    "true"
+  );
 
   const themeInformationInput = generateFormElement(
     "textarea",
-    ["modal-text-area"],
+    ["modal-text-area", "data-parsley-required"],
     true,
     dataAttributes["theme-information"] || "",
     generateId("themes", dataAttributes["theme-id"] || "0"),
@@ -226,10 +254,10 @@ function generateThemeForm(element) {
             throw new Error(errorText);
           });
         }
-        response.text();
+        return response.text();
       })
       .then((text) => {
-        console.log(text);
+        console.log("text:", text);
       })
       .catch((error) => {
         alert(error.message);
