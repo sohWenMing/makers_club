@@ -43,8 +43,9 @@ function getDataAttributes(element) {
   return dataAttributes;
 }
 
-function generateNewForm(documentToAppend, IsSetParleyValidate = false) {
+function generateNewForm(documentToAppend) {
   const newForm = document.createElement("form");
+  newForm.setAttribute("id", "theme-form");
   newForm.classList.add("modal-form");
   const modalFormLeft = document.createElement("div");
   modalFormLeft.classList.add("modal-form-left");
@@ -53,9 +54,9 @@ function generateNewForm(documentToAppend, IsSetParleyValidate = false) {
   newForm.appendChild(modalFormLeft);
   newForm.appendChild(modalFormRight);
 
-  if (IsSetParleyValidate === true) {
-    newForm.setAttribute("data-parsley-validate", "");
-  }
+  // if (IsSetParleyValidate === true) {
+  //   newForm.setAttribute("data-parsley-validate", "");
+  // }
   documentToAppend.append(newForm);
 }
 
@@ -70,7 +71,7 @@ function setEndPoint(route, form) {
 }
 
 function generateNewFormWithLeftRightSections(documentToAppend) {
-  generateNewForm(documentToAppend, true);
+  generateNewForm(documentToAppend);
   const formElements = {};
   const modalFormLeft = document.querySelector(".modal-form-left");
   const modalFormRight = document.querySelector(".modal-form-right");
@@ -87,7 +88,7 @@ function generateNewFormWithLeftRightSections(documentToAppend) {
   return formElements;
 }
 
-function generateFormElement(inputType, classElements, isTextArea, loadedInformation = "", id = 0, labelText = "default", parsley_validation = "") {
+function generateFormElement(inputType, classElements, isTextArea, loadedInformation = "", id = 0, labelText = "default") {
   const formElementDiv = document.createElement("div");
 
   const label = document.createElement("label");
@@ -113,9 +114,6 @@ function generateFormElement(inputType, classElements, isTextArea, loadedInforma
     formElementDiv.classList.add("textinput-div");
   }
   formElement.name = labelText;
-  if (parsley_validation != "") {
-    formElement.setAttribute(parsley_validation, "");
-  }
   //definition of text input
 
   for (let element of classElements) {
@@ -161,14 +159,12 @@ function generateThemeForm(element) {
     false,
     dataAttributes["theme-name"] || "",
     generateId("themes", dataAttributes["theme-id"] || "0"),
-    "Theme Name",
-    "data-parsley-required",
-    "true"
+    "Theme Name"
   );
 
   const themeInformationInput = generateFormElement(
     "textarea",
-    ["modal-text-area", "data-parsley-required"],
+    ["modal-text-area"],
     true,
     dataAttributes["theme-information"] || "",
     generateId("themes", dataAttributes["theme-id"] || "0"),
@@ -228,6 +224,19 @@ function generateThemeForm(element) {
     dateFormat: "d-m-Y",
   });
 
+  const themeNameParsleySelector = document.querySelector('[name="Theme Name"]');
+  const themeInformationParsleySelector = document.querySelector('[name="Theme Information"]');
+  const startDatePickerParsleySelector = document.querySelector('.modal-input.modal-start-date.datetimepicker.form-control.input');
+  const endDatePickerParsleySelector = document.querySelector('.modal-input.modal-end-date.datetimepicker.form-control.input');
+
+themeNameParsleySelector.setAttribute('data-parsley-required', "");
+themeInformationParsleySelector.setAttribute('data-parsley-length', "[10, 250]");
+themeInformationParsleySelector.setAttribute('data-parsley-required', "");
+startDatePickerParsleySelector.setAttribute("data-parsley-required", "");
+endDatePickerParsleySelector.setAttribute("data-parsley-required", "");
+const parsleyForm = $('#theme-form').parsley();
+
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -277,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.classList.toggle("active");
       modalContent.classList.toggle("active");
       if (icon.hasAttribute("data-page") && icon.getAttribute("data-page") === "themes") {
-        generateThemeForm(icon, modalContent);
+        generateThemeForm(icon);
       }
     });
   });
@@ -305,6 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modalContent.classList.toggle("active");
     const form = document.querySelector(".modal-form");
     modalContent.removeChild(form);
+    parsleyForm.destroy();
   });
   console.log("in script");
 });

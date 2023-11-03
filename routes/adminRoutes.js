@@ -67,6 +67,7 @@ router.post("/themes", upload.single("fileUpload"), (req, res) => {
   if (endDate < startDate) {
     return res.status(400).send("end date cannot be before start date");
   }
+  console.log("all validations passed");
   res.send("getting something from themes");
 });
 
