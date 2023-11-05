@@ -18,21 +18,6 @@ function generateDateString(data) {
   return dateString;
 }
 
-function imagePreview() {
-  // const previewImage = document.getElementById(theme_image_id);
-  const previewImage = document.getElementById("theme-preview-image");
-  const imageInput = document.getElementById("image-input");
-
-  if (imageInput.files && imageInput.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      previewImage.src = event.target.result;
-    };
-
-    reader.readAsDataURL(imageInput.files[0]);
-  }
-}
-
 function getDataAttributes(element) {
   const dataAttributes = {};
   for (const attr of element.attributes) {
@@ -54,14 +39,10 @@ function generateNewForm(documentToAppend) {
   newForm.appendChild(modalFormLeft);
   newForm.appendChild(modalFormRight);
 
-  // if (IsSetParleyValidate === true) {
-  //   newForm.setAttribute("data-parsley-validate", "");
-  // }
   documentToAppend.append(newForm);
 }
 
 function setEndPoint(route, form) {
-  // const form = document.querySelector("form");
   if (route === "themes") {
     form.action = "/admin/themes";
     form.method = "post";
@@ -142,7 +123,7 @@ function getModalAndModalContent() {
 function generateThemeForm(element) {
   const { modal, modalContent } = getModalAndModalContent();
   const dataAttributes = getDataAttributes(element);
-  formElements = generateNewFormWithLeftRightSections(modalContent);
+  const formElements = generateNewFormWithLeftRightSections(modalContent);
   const form = document.querySelector("form");
   setEndPoint("themes", form);
 
@@ -153,14 +134,7 @@ function generateThemeForm(element) {
     editHeader.innerText = "New Theme";
   }
 
-  const themeNameInput = generateFormElement(
-    "input",
-    ["modal-input"],
-    false,
-    dataAttributes["theme-name"] || "",
-    generateId("themes", dataAttributes["theme-id"] || "0"),
-    "Theme Name"
-  );
+  const themeNameInput = generateFormElement("input", ["modal-input"], false, dataAttributes["theme-name"] || "", generateId("themes", dataAttributes["theme-id"] || "0"), "Theme Name");
 
   const themeInformationInput = generateFormElement(
     "textarea",
@@ -192,26 +166,40 @@ function generateThemeForm(element) {
   formElements.leftTopSection.appendChild(endDateInput);
   formElements.leftBottomSection.appendChild(themeInformationInput);
 
+  const imageFigure = document.createElement("figure");
+  const imageCaption = document.createElement("figcaption");
+  if (dataAttributes["image-url"] && dataAttributes["image-url"] != "") {
+    imageCaption.innerText = "Current Image";
+  } else {
+    imageCaption.innerText = "No Image Currently Associated";
+  }
   const image = document.createElement("img");
   image.setAttribute("src", dataAttributes["image-url"] || "./images/question_mark.jpeg");
   image.setAttribute("alt", "theme " + dataAttributes["theme-name"] || "empty-preview" + "-image");
   image.setAttribute("id", "theme-preview-image");
   image.classList.add("modal-theme-image");
-  formElements.modalFormRight.appendChild(image);
+  imageFigure.append(image);
+  imageFigure.append(imageCaption);
+
+  formElements.modalFormRight.appendChild(imageFigure);
 
   const imageInputDiv = document.createElement("div");
-  imageInputDiv.classList.add("modal-image-input-div");
-  imageInputDiv.style.display = "flex";
-  imageInputDiv.style.justifyContent = "center";
+  imageInputDiv.style.height = "160px";
+  imageInputDiv.style.width = "200px";
+  imageInputDiv.style.border = "2px solid var(--font-gray)";
+  imageInputDiv.style.margin = "var(--space-m) 0";
   const imageInput = document.createElement("input");
   imageInput.setAttribute("type", "file");
-  imageInput.setAttribute("id", "image-input");
-  imageInput.setAttribute("accept", "image/*");
-  imageInput.setAttribute("name", "image-input");
-  imageInput.addEventListener("change", imagePreview);
-  imageInputDiv.appendChild(imageInput);
+  imageInputDiv.append(imageInput);
   formElements.modalFormRight.appendChild(imageInputDiv);
+  FilePond.registerPlugin(FilePondPluginImagePreview);
+  const pond = FilePond.create(document.querySelector('input[type="file"]'), {
+    labelIdle: "Upload A New Image",
+    name: "theme-image-upload",
+    imagePreviewHeight: 100,
+  });
 
+  console.log(pond);
   const submitButton = document.createElement("button");
   submitButton.type = "submit";
   submitButton.classList.add("btn", "btn-primary");
@@ -226,16 +214,15 @@ function generateThemeForm(element) {
 
   const themeNameParsleySelector = document.querySelector('[name="Theme Name"]');
   const themeInformationParsleySelector = document.querySelector('[name="Theme Information"]');
-  const startDatePickerParsleySelector = document.querySelector('.modal-input.modal-start-date.datetimepicker.form-control.input');
-  const endDatePickerParsleySelector = document.querySelector('.modal-input.modal-end-date.datetimepicker.form-control.input');
+  const startDatePickerParsleySelector = document.querySelector(".modal-input.modal-start-date.datetimepicker.form-control.input");
+  const endDatePickerParsleySelector = document.querySelector(".modal-input.modal-end-date.datetimepicker.form-control.input");
 
-themeNameParsleySelector.setAttribute('data-parsley-required', "");
-themeInformationParsleySelector.setAttribute('data-parsley-length', "[10, 250]");
-themeInformationParsleySelector.setAttribute('data-parsley-required', "");
-startDatePickerParsleySelector.setAttribute("data-parsley-required", "");
-endDatePickerParsleySelector.setAttribute("data-parsley-required", "");
-const parsleyForm = $('#theme-form').parsley();
-
+  themeNameParsleySelector.setAttribute("data-parsley-required", "");
+  themeInformationParsleySelector.setAttribute("data-parsley-length", "[10, 250]");
+  themeInformationParsleySelector.setAttribute("data-parsley-required", "");
+  startDatePickerParsleySelector.setAttribute("data-parsley-required", "");
+  endDatePickerParsleySelector.setAttribute("data-parsley-required", "");
+  const parsleyForm = $("#theme-form").parsley();
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -247,9 +234,13 @@ const parsleyForm = $('#theme-form').parsley();
         console.log("appended element", formData.get(element.name));
       }
     }
-    if (imageInput.files && imageInput.files[0]) {
-      formData.append("fileUpload", imageInput.files[0]);
+    const file = pond.getFiles()[0];
+    if (file) {
+      console.log(file);
+    } else {
+      console.log("no files");
     }
+
     for (const [name, value] of formData) {
       console.log(`Name: ${name}, Value: ${value}`);
     }

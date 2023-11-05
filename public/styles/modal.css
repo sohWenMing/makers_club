@@ -74,11 +74,15 @@
   padding: var(--space-s);
 }
 
-.modal-theme-image,
-.modal-image-input-div {
-  margin-bottom: var(--space-s);
+.modal-theme-image {
+  margin: 0 auto;
 }
 
 .textinput-div {
   margin: var(--space-s) 0;
+}
+
+figcaption {
+  text-align: center;
+  font-size: var(--font-size-xs);
 }
