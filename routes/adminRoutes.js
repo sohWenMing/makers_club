@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const fs = require('fs');
+const fs = require("fs");
 
 const { db, dbAll } = require("../db_operations/db_connection");
 const bodyParser = require("body-parser");
@@ -10,8 +10,7 @@ const { getDateTimeFromString } = require("../helper_functions/timeFunctions");
 // const multer = require("multer");
 // const upload = multer({ dest: "../public/resources/uploaded" });
 
-const formidable = require('formidable');
-const form = new formidable.IncomingForm({multiples: false});
+const formidable = require("formidable");
 
 // remember to implement requireAuth back
 router.get("/", async (req, res, next) => {
@@ -46,17 +45,49 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/themes", (req, res) => {
-  console.log("BEGIN /save");
-  const form = new formidable.IncomingForm();
+router.post("/uploads", (req, res) => {
+  console.log("BEGIN / upload");
+  const form = new formidable.IncomingForm({
+    multiples: false,
+    allowEmptyFiles: true,
+    minFileSize: 0,
+    keepExtensions: true,
+  });
   form.parse(req, (err, fields, files) => {
-    if(err) {
-     console.log(err);
+    if (err) {
+      next(err);
       return;
     }
-    console.log(fields);
-    console.log(files);
-  })
+    let theFile = files["image-input-filepond"][0].filepath;
+    console.log("theFile: " + theFile);
+    // res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.send(theFile);
+  });
+});
+
+router.post("/themes", (req, res) => {
+  console.log("BEGIN /save");
+  // const form = new formidable.IncomingForm({
+  //   allowEmptyFiles: true,
+  //   minFileSize: 0,
+  //   keepExtensions: true,
+  // });
+  const form = new formidable.IncomingForm({
+    multiples: false,
+    allowEmptyFiles: true,
+    minFileSize: 0,
+    keepExtensions: true,
+  });
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      next(err);
+      return;
+    }
+    console.log("fields:", fields);
+    console.log("files", files);
+
+    res.send("ok getting something");
+  });
 });
 
 //   const startDate = getDateTimeFromString(req.body["Start Date"]);
@@ -79,20 +110,5 @@ router.post("/themes", (req, res) => {
 //   console.log("all validations passed");
 //   res.send("getting something from themes");
 // });
-
-router.post("/uploads", (req, res) =>
-{
-  console.log("BEGIN / upload");
-  form.parse(req, (err, fields, files) => {
-    if(err) {
-      next(err);
-      return;
-    }
-    let theFile = files["image-input-filepond"][0].filepath;
-    console.log("theFile: " + theFile);
-    // res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.send(theFile);
-  })
-})
 
 module.exports = router;

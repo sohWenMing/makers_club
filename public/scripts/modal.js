@@ -197,9 +197,10 @@ function generateThemeForm(element) {
     labelIdle: "Upload A New Image",
     name: "image-input-filepond",
     imagePreviewHeight: 100,
-    server: "/admin/uploads" });
+    server: "/admin/uploads",
+  });
 
-  console.log(pond);
+  // console.log(pond);
   const submitButton = document.createElement("button");
   submitButton.type = "submit";
   submitButton.classList.add("btn", "btn-primary");
@@ -252,7 +253,7 @@ function generateThemeForm(element) {
         alert(error.message);
       });
   });
-};
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const editIcons = document.querySelectorAll("[data-icon-type=edit-icon]");
