@@ -46,13 +46,18 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// router.post("/themes", upload.single("fileUpload"), (req, res) => {
-//   if (req.file) {
-//     console.log("filename", req.file.filename);
-//   }
-//   // return res.status(400).send("Just some error");
-
-//   console.log(req.body);
+router.post("/themes", (req, res) => {
+  console.log("BEGIN /save");
+  const form = new formidable.IncomingForm();
+  form.parse(req, (err, fields, files) => {
+    if(err) {
+     console.log(err);
+      return;
+    }
+    console.log(fields);
+    console.log(files);
+  })
+});
 
 //   const startDate = getDateTimeFromString(req.body["Start Date"]);
 //   const endDate = getDateTimeFromString(req.body["End Date"]);
@@ -83,8 +88,10 @@ router.post("/uploads", (req, res) =>
       next(err);
       return;
     }
-    let theFile = files.filepond;
+    let theFile = files["image-input-filepond"][0].filepath;
     console.log("theFile: " + theFile);
+    // res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.send(theFile);
   })
 })
 

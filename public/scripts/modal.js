@@ -195,7 +195,7 @@ function generateThemeForm(element) {
   FilePond.registerPlugin(FilePondPluginImagePreview);
   const pond = FilePond.create(document.querySelector('input[type="file"]'), {
     labelIdle: "Upload A New Image",
-    name: "filepond",
+    name: "image-input-filepond",
     imagePreviewHeight: 100,
     server: "/admin/uploads" });
 
@@ -226,24 +226,13 @@ function generateThemeForm(element) {
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    for (const element of form.elements) {
-      if (element.name) {
-        console.log(element);
-        formData.append(element.name, element.value);
-        console.log("appended element", formData.get(element.name));
-      }
-    }
-    const file = pond.getFiles()[0];
-    if (file) {
-      console.log(file);
-    } else {
-      console.log("no files");
-    }
-
+    console.log("submit button was hit");
+    const formData = new FormData(form);
+    console.log("Form Data: " + Object.keys(formData));
     for (const [name, value] of formData) {
       console.log(`Name: ${name}, Value: ${value}`);
     }
+
     fetch(form.action, {
       method: "POST",
       body: formData,
@@ -263,7 +252,7 @@ function generateThemeForm(element) {
         alert(error.message);
       });
   });
-}
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   const editIcons = document.querySelectorAll("[data-icon-type=edit-icon]");
