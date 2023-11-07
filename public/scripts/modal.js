@@ -195,9 +195,9 @@ function generateThemeForm(element) {
   FilePond.registerPlugin(FilePondPluginImagePreview);
   const pond = FilePond.create(document.querySelector('input[type="file"]'), {
     labelIdle: "Upload A New Image",
-    name: "theme-image-upload",
+    name: "filepond",
     imagePreviewHeight: 100,
-  });
+    server: "/admin/uploads" });
 
   console.log(pond);
   const submitButton = document.createElement("button");
