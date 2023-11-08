@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
+const path = require('path');
 
 const { db, dbAll } = require("../db_operations/db_connection");
 const bodyParser = require("body-parser");
@@ -84,6 +85,31 @@ router.post("/themes", (req, res) => {
       return;
     }
     console.log("fields:", fields);
+
+    if(fields['image-input-filepond']) {
+      console.log(fields['image-input-filepond'][0]);
+      const tempFilePath = fields['image-input-filepond'][0];
+      const fileName = path.basename(tempFilePath);
+      const destinationFolder = path.join(__dirname, '../public/resources/uploaded');
+      const destinationFilePath = path.join(destinationFolder, fileName);
+      const readStream = fs.createReadStream(tempFilePath);
+      const writeStream = fs.createWriteStream(destinationFilePath);
+      readStream.pipe(writeStream);
+
+      writeStream.on('finish', () => {
+        console.log('File copy completed');
+        // res.status(200).send('File copy completed');
+      });
+      // console.log(fileName);
+      writeStream.on('error', (err) => {
+        console.error('Error copying file: ', err);
+        // res.status(500).send('An error occured while copying the file');
+      });
+     
+    }
+    else {
+      console.log("no files were uploaded");
+    }
     console.log("files", files);
 
     res.send("ok getting something");
