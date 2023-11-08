@@ -125,6 +125,13 @@ function generateThemeForm(element) {
   const dataAttributes = getDataAttributes(element);
   const formElements = generateNewFormWithLeftRightSections(modalContent);
   const form = document.querySelector("form");
+  if(dataAttributes['theme-id']) {
+    form.setAttribute("theme-id", dataAttributes['theme-id']);
+  }
+  else {
+    form.setAttribute("theme-id", "0");
+  }
+  
   setEndPoint("themes", form);
 
   const editHeader = document.createElement("h1");
@@ -228,7 +235,10 @@ function generateThemeForm(element) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     console.log("submit button was hit");
+    const themeId = form.getAttribute("theme-id");
+    
     const formData = new FormData(form);
+    formData.append("themeId", themeId);
     console.log("Form Data: " + Object.keys(formData));
     for (const [name, value] of formData) {
       console.log(`Name: ${name}, Value: ${value}`);

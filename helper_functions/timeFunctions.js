@@ -23,15 +23,27 @@ function getDateTimeFromString(dateString) {
   const dateTime = new Date(year, month, day);
 
   if (!isNaN(dateTime.getTime()) && dateTime.getDate() === day && dateTime.getMonth() === month && dateTime.getFullYear() === year) {
-    const dateTimeInUTC = new Date(dateTime.setHours(dateTime.getHours() + 2));
+    const dateTimeInUTC = new Date(dateTime.setHours(dateTime.getHours()));
     return dateTimeInUTC;
   } else {
     return null;
   }
 }
 
+function prepareFlatpickrDateString(string) {
+  const valueArray = string.split("-");
+  const day = valueArray[0];
+  const month = valueArray[1];
+  const year = valueArray[2];
+  const outputString = `${year}-${month}-${day}T00:00:00.000`
+  return outputString;
+}
+
+
+
 module.exports = {
   getISOString,
   generateDateString,
   getDateTimeFromString,
+  prepareFlatpickrDateString
 };
