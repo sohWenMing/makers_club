@@ -236,9 +236,12 @@ function generateThemeForm(element) {
     event.preventDefault();
     console.log("submit button was hit");
     const themeId = form.getAttribute("theme-id");
+    const previewSrc = document.getElementById("theme-preview-image").getAttribute("src");
+    
     
     const formData = new FormData(form);
     formData.append("themeId", themeId);
+    formData.append("previewSrc", previewSrc);
     console.log("Form Data: " + Object.keys(formData));
     for (const [name, value] of formData) {
       console.log(`Name: ${name}, Value: ${value}`);

@@ -1,15 +1,31 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
+const fsPromise = require("fs").promises;
 const path = require('path');
 
 const { db, dbAll } = require("../db_operations/db_connection");
 const bodyParser = require("body-parser");
 const requireAuth = require("../auth/auth");
 const { getDateTimeFromString, getISOString, prepareFlatpickrDateString } = require("../helper_functions/timeFunctions");
-
-// const multer = require("multer");
-// const upload = multer({ dest: "../public/resources/uploaded" });
+function storeImage(filePath) {
+  const tempFilePath = filePath;
+  const fileName = path.basename(tempFilePath);
+  const destinationFolder = path.join(__dirname, '../public/resources/uploaded');
+  const destinationFilePath = path.join(destinationFolder, fileName);
+  const imageUrl = "./resources/uploaded/" + fileName;
+  console.log("image_url_created: ", imageUrl);
+  const readStream = fs.createReadStream(tempFilePath);
+  const writeStream = fs.createWriteStream(destinationFilePath);
+  readStream.pipe(writeStream);
+  writeStream.on('finish', () => {
+    console.log('File copy completed');
+  })
+  writeStream.on('error', (err) => {
+    console.error('Error copying file: ', err);
+    throw(err);
+  });
+};
 
 const formidable = require("formidable");
 
@@ -68,11 +84,7 @@ router.post("/uploads", (req, res) => {
 
 router.post("/themes", (req, res) => {
   console.log("BEGIN /save");
-  // const form = new formidable.IncomingForm({
-  //   allowEmptyFiles: true,
-  //   minFileSize: 0,
-  //   keepExtensions: true,
-  // });
+  
   const form = new formidable.IncomingForm({
     multiples: false,
     allowEmptyFiles: true,
@@ -85,59 +97,75 @@ router.post("/themes", (req, res) => {
       return;
     }
     console.log("fields:", fields);
+    const themeId = parseInt(fields['themeId'][0]);
+    const isNewRecord = themeId === 0;
+    console.log(fields['previewSrc'][0]);
+    const noPreviousImg = fields['previewSrc'][0] === './images/question_mark.jpeg';
+    console.log("isNewRecord :", isNewRecord, "noPreviousImg :", noPreviousImg);
+    let isImageUploaded = false;
+    if(fields['image-input-filepond']) {
+      isImageUploaded = true;
+    };
 
     const prepStart = prepareFlatpickrDateString(fields['Start Date'][0]);
-    console.log("prep start:" , prepStart)
-
+    
     const themeName = fields['Theme Name'][0];
     const startDate = getISOString(prepareFlatpickrDateString(fields['Start Date'][0]));
     const endDate = getISOString(prepareFlatpickrDateString(fields['End Date'][0]));
-    // console.log("Prepared start date: ", startDate);
-    // console.log("Prepared end date: ", endDate);
     const themeInformation = fields['Theme Information'][0];
-    const themeId = parseInt(fields['themeId'][0]);
-    let isImageUploaded = false;
+    const previewImgPath = path.join(__dirname, "../public", fields['previewSrc'][0]);
 
-    if(fields['image-input-filepond']) {
-      isImageUploaded = true;
-      console.log(fields['image-input-filepond'][0]);
-      const tempFilePath = fields['image-input-filepond'][0];
-      const fileName = path.basename(tempFilePath);
-      const destinationFolder = path.join(__dirname, '../public/resources/uploaded');
-      const destinationFilePath = path.join(destinationFolder, fileName);
-      const imageUrl = "./resources/uploaded/" + fileName;
-      console.log("image_url_created: ", imageUrl);
-      const readStream = fs.createReadStream(tempFilePath);
-      const writeStream = fs.createWriteStream(destinationFilePath);
-      readStream.pipe(writeStream);
-      writeStream.on('finish', () => {
-        console.log('File copy completed');
-        const sql = `
-        UPDATE themes
-        SET
-          theme_name = ?,
-          theme_information = ?,
-          start_date_time = ?, 
-          end_date_time = ?,
-          image_url = ?
-        WHERE
-          id = ?
-        `
-        db.run(sql, [themeName, themeInformation, startDate, endDate, imageUrl, themeId], function (err) {
-          if (err) {
-            console.error(err.message);
-          }
-          res.status(200).send("database was updated");
-        })
-      });
-      
-      writeStream.on('error', (err) => {
-        console.error('Error copying file: ', err);
-        res.status(500).send('An error occured while copying the file');
-      });
-    }
+
+
+  if(!isNewRecord) {
+      if(isImageUploaded) {
+        console.log(fields['image-input-filepond'][0]);
+        const tempFilePath = fields['image-input-filepond'][0];
+        const fileName = path.basename(tempFilePath);
+        const destinationFolder = path.join(__dirname, '../public/resources/uploaded');
+        const destinationFilePath = path.join(destinationFolder, fileName);
+        const imageUrl = "./resources/uploaded/" + fileName;
+        console.log("image_url_created: ", imageUrl);
+        const readStream = fs.createReadStream(tempFilePath);
+        const writeStream = fs.createWriteStream(destinationFilePath);
+        readStream.pipe(writeStream);
+        writeStream.on('finish', () => {
+          console.log('File copy completed');
+            fs.unlink(previewImgPath, (err) => {
+              if (err) {
+                res.status(500).send('An error occured while removing the previous image');
+              }
+              else {
+                console.log('Previous image deleted successfully');
+              }
+            })
+          const sql = `
+          UPDATE themes
+          SET
+            theme_name = ?,
+            theme_information = ?,
+            start_date_time = ?, 
+            end_date_time = ?,
+            image_url = ?
+          WHERE
+            id = ?
+          `
+          db.run(sql, [themeName, themeInformation, startDate, endDate, imageUrl, themeId], function (err) {
+            if (err) {
+              console.error(err.message);
+            }
+            res.status(200).send("database was updated");
+          })
+        });
+        
+        writeStream.on('error', (err) => {
+          console.error('Error copying file: ', err);
+          res.status(500).send('An error occured while copying the file');
+        });
+      }
     else {
       console.log("no files were uploaded");
+      console.log("hitting this here");
       const sql = `
       UPDATE themes
       SET
@@ -152,12 +180,16 @@ router.post("/themes", (req, res) => {
         if (err) {
           res.status(500).send('An error occured');
         }
-        res.status(200).send("database was updated");
-      })
+        else {
+          console.log("got to end of operation");
+          res.status(200).send("database was updated");
+        }
+      });
     };
-  // res.send("ok getting something")
-  });
+  }
 });
+});
+  
 
 //   const startDate = getDateTimeFromString(req.body["Start Date"]);
 //   const endDate = getDateTimeFromString(req.body["End Date"]);
